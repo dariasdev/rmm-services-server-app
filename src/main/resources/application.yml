@@ -1,0 +1,45 @@
+spring:
+  profiles.active: LOCAL_DEV
+  application.name: rmm-services-server-app
+  liquibase.enabled: false
+
+server.port: 8090
+rmm-services-server-app:
+  security:
+    apiKeyHeader: apiKeyHeader
+    api-key-to-role-map:
+      0 : NONE_USER
+      1 : READ_USER
+      2 : CREATE_USER
+      3 : UPDATE_USER
+      4 : DELETE_USER
+      5 : ADMIN_USER
+    user-to-privilege-map:
+      READ_USER : 
+       - READ
+      CREATE_USER:
+       - CREATE
+      UPDATE_USER:
+       - UPDATE
+      DELETE_USER:
+       - DELETE
+      ADMIN_USER:
+       - READ
+       - CREATE
+       - UPDATE
+       - DELETE
+---  
+spring:
+  config:
+    activate:
+      on-profile: LOCAL_DEV
+  datasource:
+    url: jdbc:h2:mem:testdb;MODE=PostgreSQL;
+    driverClassName: org.h2.Driver
+    username: sa
+    password: 
+  jpa:
+   database-platform: org.hibernate.dialect.H2Dialect
+   hibernate.ddl-auto: none
+  h2.console.enabled: true
+springdoc.swagger-ui.operationsSorter: method
